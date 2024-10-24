@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+std::vector<int>v;
+int dif=0,k,n;
+int f[100001];
+int verif(int i)
+{
+    //std::cout<<i<<' '<<v[i-1]<<' '<<f[v[i-1]]<<' '<<v[i+k-1]<<' '<<f[v[i+k-1]]<<' '<<dif<<'\n';
+    bool ok1=false,ok2=false;
+    if(f[v[i-1]]==0){ok1=true;}
+    f[v[i-1]]+=1;
+    if(f[v[i+k-1]]==1){ok2=true;}
+    f[v[i+k-1]]-=1;
+    if(f[v[i-1]]==1&&ok1)dif++;
+    if(f[v[i+k-1]]==0&&ok2)dif--;
+    //std::cout<<i<<' '<<v[i-1]<<' '<<f[v[i-1]]<<' '<<v[i+k-1]<<' '<<f[v[i+k-1]]<<' '<<dif<<'\n';
+    return dif;
+}
+int main()
+{
+    int ans=0;
+    std::cin>>n;
+    std::cin>>k;
+    v.resize(n);
+    for(int i=0;i<n;i++)
+    {
+        int x;
+        std::cin>>v[i];
+        if(f[v[i]]==0)dif++;
+        f[v[i]]++;
+    }
+    //std::cout<<dif<<' ';
+    if(k==n){std::cout<<0;return 0;}
+    if(k==0)
+    {
+        std::cout<<dif;return 0;   
+    }
+    for(int j=0;j<k;j++)
+    {
+        f[v[j]]--;
+        if(f[v[j]]==0){dif--;
+            //std::cout<<v[j]<<' ';
+        }
+    }
+    //std::cout<<dif<<' ';
+    for(int i=1;i<v.size()-k+1;i++)
+    {
+        ans=std::max(verif(i),ans);
+    }
+    std::cout<<ans;
+    return 0;
+}
